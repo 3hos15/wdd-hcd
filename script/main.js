@@ -1,38 +1,45 @@
 const video = document.getElementById("film");
 const left = document.querySelector(".border-left");
 const right = document.querySelector(".border-right");
+const startBtn = document.getElementById("start"); 
 
-const events = [
-    { start: 2, end: 5, side: "left", color: "purple" },
-    { start: 6, end: 9, side: "left", color: "dodgerblue" },
-    { start: 10, end: 13, side: "none" },
-    { start: 14, end: 17, side: "right", color: "crimson" },
-    { start: 18, end: 21, side: "left", color: "darkred" },
-    { start: 22, end: 24, side: "left", color: "orange" },
-    { start: 25, end: 28, side: "both", color: "red", vibration: [200,50,200] }
-];
+startBtn.addEventListener("click", () => {
+  video.play();
 
-video.addEventListener("timeupdate", () => {
-const t = video.currentTime;
+  startBtn.style.display = "none";
 
-left.style.background = "transparent";
-right.style.background = "transparent";
+  const events = [
+      { start: 2, end: 5, side: "left", color: "purple" },
+      { start: 6, end: 9, side: "left", color: "dodgerblue" },
+      { start: 10, end: 13, side: "none" },
+      { start: 14, end: 17, side: "right", color: "crimson" },
+      { start: 18, end: 21, side: "left", color: "darkred" },
+      { start: 22, end: 24, side: "left", color: "orange" },
+      { start: 25, end: 28, side: "both", color: "red", vibration: [200,50,200] }
+  ];
 
-events.forEach(e => {
-    if (t >= e.start && t <= e.end) {
-        if (e.side === "left" || e.side === "both") {
-        left.style.background = e.color;
-        left.classList.add("active");
-    }
+  video.addEventListener("timeupdate", () => {
+      const t = video.currentTime;
 
-    if (e.side === "right" || e.side === "both") {
-        right.style.background = e.color;
-        right.classList.add("active");
-    }
+      left.style.background = "transparent";
+      right.style.background = "transparent";
 
-    if (e.vibration && navigator.vibrate) {
-        navigator.vibrate(e.vibration);
-    }
-    }
-    });
+      events.forEach(e => {
+          if (t >= e.start && t <= e.end) {
+              if (e.side === "left" || e.side === "both") {
+                  left.style.background = e.color;
+                  left.classList.add("active");
+              }
+
+              if (e.side === "right" || e.side === "both") {
+                  right.style.background = e.color;
+                  right.classList.add("active");
+              }
+
+              if (e.vibration && navigator.vibrate) {
+                  navigator.vibrate(e.vibration);
+              }
+          }
+      });
+  });
 });
