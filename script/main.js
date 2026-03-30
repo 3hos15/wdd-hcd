@@ -9,13 +9,20 @@ startBtn.addEventListener("click", () => {
   startBtn.style.display = "none";
 
   const events = [
-      { start: 2, end: 5, side: "left", color: "purple" },
-      { start: 6, end: 9, side: "left", color: "dodgerblue" },
-      { start: 10, end: 13, side: "none" },
-      { start: 14, end: 17, side: "right", color: "crimson" },
-      { start: 18, end: 21, side: "left", color: "darkred" },
-      { start: 22, end: 24, side: "left", color: "orange" },
-      { start: 25, end: 28, side: "both", color: "red", vibration: [200,50,200] }
+      { start: 1, end: 5, side: "left", color: "purple" },
+      { start: 5, end: 6, side: "left", color: "red" , vibration: [200,50,200] },
+      { start: 6, end: 8, side: "left", color: "darkred" },
+      { start: 8, end: 21, side: "both", color: "grey" },
+      { start: 21, end: 37, side: "left", color: "purple" },
+      { start: 29, end: 33, side: "right", color: "green", vibration: [200,50,200] },
+      { start: 32, end: 33, side: "left", color: "blue", vibration: [200,50,200] },
+      { start: 34, end: 35, side: "right", color: "green", vibration: [200,50,200] },
+      { start: 34, end: 37, side: "left", color: "blue", vibration: [200,50,200] },
+      { start: 37, end: 39, side: "right", color: "green", vibration: [200,50,200] },
+      { start: 39, end: 40, side: "both", color: "red", vibration: [200,50,200] },
+
+
+
   ];
 
   video.addEventListener("timeupdate", () => {
