@@ -4,59 +4,504 @@
     box-sizing: border-box;
 }
 
+:root {
+    --bg-color: rgb(68, 68, 68);
+}
+
 body {
     height: 100vh;
     display: grid;
     place-items: center;
+    background-color: var(--bg-color);
+    color: white;
+    font-family: Helvetica, Arial, sans-serif;
 }
 
+header {
+    display: flex;
+    gap: 1em;
+    align-items: baseline
+}
 
 .video-wrapper {
     position: relative;
     width: 80vw;
     max-width: 900px;
+    margin: 1.5em;
 }
 
 video {
     position: relative;
     width: 100%;
     height: 100%;
+    scale: 1.3;
     border-radius: 10px;
     z-index: 2;
 }
 
-#border-bg {
+#border {
     position: absolute;
-    top: -12px;
-    left: -12px;
-    width: calc(100% + 24px);
-    height: calc(100% + 24px);
-    display: flex;
-    /* gap: 4px; */
-    z-index: 1;
-}
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    scale: 1.3;
 
-button {
-    cursor: pointer;
-    padding: 20px;
-}
-
-.border-left,
-.border-right {
-    flex: 1;
-    /* border-radius: 20px; */
-    background: transparent;
+    border-radius: 5px;
+    border: 10px solid transparent;
     transition: all 0.3s ease;
-}
-
-@keyframes pulse {
-    0% { box-shadow: 0 0 5px; }
-    50% { box-shadow: 0 0 35px; }
-    100% { box-shadow: 0 0 5px; }
-}
-
-.active {
-    animation: pulse 0.2s ease-in-out;
+    pointer-events: none;
 }
 
 
+@keyframes video-shake {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    10%  { transform: translate(-6px, -4px) rotate(-0.5deg); }
+    20%  { transform: translate(6px, 4px) rotate(0.5deg); }
+    30%  { transform: translate(-8px, 2px) rotate(-0.3deg); }
+    40%  { transform: translate(8px, -2px) rotate(0.3deg); }
+    50%  { transform: translate(-4px, 6px) rotate(-0.2deg); }
+    60%  { transform: translate(4px, -6px) rotate(0.2deg); }
+    70%  { transform: translate(-3px, 3px) rotate(-0.1deg); }
+    80%  { transform: translate(3px, -3px) rotate(0.1deg); }
+    90%  { transform: translate(-1px, 1px) rotate(0deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.video-wrapper.shaking {
+    animation: video-shake 0.5s ease-out forwards;
+}
+
+
+/* #legend {
+    position: fixed;
+    width: 5em;
+    height: 5em;
+    background-color: rgb(192, 175, 155);
+    bottom: 1em;
+    right: 1em;
+    z-index: 10;
+    font-size: 0.75em;
+    opacity: 0.6;
+    color: white;
+} */
+
+
+/* =====================
+border styling per seconde
+===================== */
+#border.second-0,
+#border.second-1,
+#border.second-2,
+#border.second-3,
+#border.second-4 { 
+    border-color: dodgerblue; 
+    animation: radio-static 1.8s steps(1, end) infinite;
+}
+
+@keyframes radio-static {
+    0%   { box-shadow: 0 0 8px 2px rgba(30, 144, 255, 0.6); border-color: dodgerblue; }
+    8%   { box-shadow: 0 0 20px 6px rgba(30, 144, 255, 1); border-color: lightskyblue; }
+    10%  { box-shadow: 0 0 4px 1px rgba(30, 144, 255, 0.3); border-color: dodgerblue; }
+    11%  { box-shadow: 0 0 22px 8px rgba(30, 144, 255, 1); border-color: lightskyblue; }
+    13%  { box-shadow: 0 0 6px 2px rgba(30, 144, 255, 0.4); border-color: dodgerblue; }
+    40%  { box-shadow: 0 0 6px 2px rgba(30, 144, 255, 0.4); border-color: dodgerblue; }
+    42%  { box-shadow: 0 0 18px 5px rgba(30, 144, 255, 0.9); border-color: lightskyblue; }
+    43%  { box-shadow: 0 0 4px 1px rgba(30, 144, 255, 0.2); border-color: steelblue; }
+    44%  { box-shadow: 0 0 16px 4px rgba(30, 144, 255, 0.8); border-color: lightskyblue; }
+    70%  { box-shadow: 0 0 6px 2px rgba(30, 144, 255, 0.4); border-color: dodgerblue; }
+    72%  { box-shadow: 0 0 25px 8px rgba(30, 144, 255, 1); border-color: lightskyblue; }
+    73%  { box-shadow: 0 0 4px 1px rgba(30, 144, 255, 0.2); border-color: steelblue; }
+    100% { box-shadow: 0 0 8px 2px rgba(30, 144, 255, 0.6); border-color: dodgerblue; }
+}
+
+#border:is(.second-0, .second-1, .second-2, .second-3, .second-4)::before {
+    content: "(High-pitched radio static noises coming from the police car radio)";
+    color: white;
+    font-style: italic;
+    background-color: rgba(0, 0, 0, 0.347);
+    font-size: .8em;
+    position: absolute;
+    bottom: 7%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: fit-content;
+
+}
+
+#border:is(.second-0)::after {
+    content: "Police officer: The EMS and fire";
+    color: white;
+    background-color: rgba(0, 0, 0, 0.347);
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: fit-content;
+}
+
+#border:is(.second-1)::after {
+    content: "Lee: Whereabouts?";
+    color: white;
+    background-color: rgba(0, 0, 0, 0.347);
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: fit-content;
+}
+
+#border:is(.second-2, .second-3)::after {
+    content: "Police officer: I think out there by Walker's farm.";
+    color: white;
+    background-color: rgba(0, 0, 0, 0.347);
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: fit-content;
+}
+
+#border:is(.second-5, .second-6, .second-7)::before {
+    content: "(Loud impact of the monster crashing into the police car. People in the background shouting.)";
+    color: white;
+    font-style: italic;
+    background-color: rgba(0, 0, 0, 0.347);
+    font-size: .8em;
+    position: absolute;
+    bottom: 7%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: fit-content;
+}
+
+#border.second-5,
+#border.second-6,
+#border.second-7 { 
+    border-color: red;
+    animation: monster-crash 2.5s ease-out forwards;
+}
+
+
+@keyframes monster-crash {
+    0%   { box-shadow: 0 0 0px red; border-color: red; }
+    2%   { box-shadow: 0 0 60px 20px red; border-color: white; border-width: 20px; }
+    4%   { box-shadow: 0 0 10px red; border-color: red; border-width: 10px; }
+    5%   { box-shadow: 0 0 50px 15px orangered; border-color: white; border-width: 18px; }
+    7%   { box-shadow: 0 0 8px red; border-color: darkred; border-width: 10px; }
+
+    10%  { box-shadow: 8px 4px 30px 8px red; border-color: red; }
+    13%  { box-shadow: -6px -8px 25px 6px orangered; border-color: orangered; }
+    16%  { box-shadow: 10px -4px 30px 10px red; border-color: red; }
+    19%  { box-shadow: -8px 6px 20px 8px darkred; border-color: darkred; }
+    22%  { box-shadow: 4px -10px 30px 8px red; border-color: red; }
+    25%  { box-shadow: -10px 4px 25px 6px orangered; border-color: orangered; }
+    28%  { box-shadow: 6px 8px 20px 6px red; border-color: red; }
+
+    40%  { box-shadow: 0 0 20px 6px rgba(255, 50, 0, 0.7); border-color: darkred; border-width: 10px; }
+    60%  { box-shadow: 0 0 12px 3px rgba(255, 50, 0, 0.4); border-color: darkred; }
+    80%  { box-shadow: 0 0 8px 2px rgba(255, 50, 0, 0.2); border-color: darkred; }
+    100% { box-shadow: 0 0 4px 1px rgba(255, 50, 0, 0.1); border-color: darkred; }
+}
+
+
+#border:is(.second-8, .second-9, .second-10, .second-11, .second-12, .second-13, .second-14, .second-15, .second-16, .second-17, .second-18, .second-19, .second-20)::before {
+    content: "(Regan's heart beating slowly)";
+    color: white;
+    font-style: italic;
+    background-color: rgba(0, 0, 0, 0.347);
+    font-size: .8em;
+    position: absolute;
+    bottom: 7%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: fit-content;
+}
+
+#border.second-8,
+#border.second-9,
+#border.second-10,
+#border.second-11,
+#border.second-12,
+#border.second-13,
+#border.second-14,
+#border.second-15,
+#border.second-16,
+#border.second-17,
+#border.second-18,
+#border.second-19,
+#border.second-20,
+#border.second-21 { 
+    box-shadow: 0 0 20px white;
+    animation: pulse-glow 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0%   { box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.3); } 
+    10%  { box-shadow: 0 0 30px 8px rgba(255, 255, 255, 1); }  
+    18%  { box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.3); }  
+    
+    26%  { box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.8); }
+    
+    35%  { box-shadow: 0 0 4px 1px rgba(255, 255, 255, 0.2); }
+    100% { box-shadow: 0 0 4px 1px rgba(255, 255, 255, 0.2); }
+}
+
+#border:is(.second-21, .second-22, .second-23, .second-24, .second-25, .second-26, .second-27 )::before {
+    content: "(High static radio noise)";
+    color: white;
+    font-style: italic;
+    background-color: rgba(0, 0, 0, 0.347);
+    font-size: .8em;
+    position: absolute;
+    bottom: 7%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: fit-content;
+}
+
+#border:is(.second-29, .second-30)::after {
+    content:  "Evelyn: It's okay honey.";
+    color: white;
+    background-color: rgba(0, 0, 0, 0.347);
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: fit-content;
+
+}
+
+#border:is(.second-32, .second-33)::after {
+    content:  "Evelyn: It's okay baby.";
+    color: white;
+    background-color: rgba(0, 0, 0, 0.347);
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: fit-content;
+}
+
+#border:is(.second-34)::after {
+    content:  "Beau: Mom?";
+    color: white;
+    background-color: rgba(0, 0, 0, 0.347);
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: fit-content;
+}
+
+#border:is(.second-35)::after {
+    content:  "Evelyn: Yeah?";
+    color: white;
+    background-color: rgba(0, 0, 0, 0.347);
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: fit-content;
+}
+
+#border:is(.second-37, .second-38)::after {
+    content:  "Evelyn: (Whispers) What is happening..?";
+    color: white;
+    background-color: rgba(0, 0, 0, 0.347);
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: fit-content;
+}
+#border.second-22,
+#border.second-23,
+#border.second-24,
+#border.second-25,
+#border.second-26,
+#border.second-27 {
+    animation: high-pitch 1s steps(5, end) infinite;
+}
+
+
+
+@keyframes high-pitch {
+    0%   { box-shadow: 0 0 40px 15px rgb(214, 194, 167); border-color: rgb(214, 194, 167); }
+    10%  { box-shadow: 0 0 2px 1px rgba(245,230,210,0.1); border-color: transparent; }
+    15%  { box-shadow: 0 0 60px 20px rgb(214, 194, 167); border-color: rgb(214, 194, 167); }
+    18%  { box-shadow: 0 0 1px 0px rgba(245,230,210,0.0); border-color: transparent; }
+    25%  { box-shadow: 0 0 50px 18px rgba(240, 220, 195, 1); border-color: rgb(240, 220, 195); }
+    30%  { box-shadow: 0 0 3px 1px rgba(245,230,210,0.2); border-color: transparent; }
+    40%  { box-shadow: 0 0 70px 25px rgb(214, 194, 167); border-color: rgb(214, 194, 167); }
+    41%  { box-shadow: 0 0 1px 0px rgba(245,230,210,0.0); border-color: transparent; }
+    42%  { box-shadow: 0 0 55px 20px rgb(214, 194, 167); border-color: rgb(214, 194, 167); }
+    43%  { box-shadow: 0 0 1px 0px rgba(245,230,210,0.0); border-color: transparent; }
+    55%  { box-shadow: 0 0 45px 15px rgba(240, 220, 195, 0.9); border-color: rgb(240, 220, 195); }
+    60%  { box-shadow: 0 0 2px 1px rgba(245,230,210,0.1); border-color: transparent; }
+    75%  { box-shadow: 0 0 80px 30px rgb(214, 194, 167); border-color: rgb(214, 194, 167); }
+    76%  { box-shadow: 0 0 1px 0px rgba(245,230,210,0.0); border-color: transparent; }
+    77%  { box-shadow: 0 0 60px 22px rgb(214, 194, 167); border-color: rgb(214, 194, 167); }
+    80%  { box-shadow: 0 0 2px 1px rgba(245,230,210,0.1); border-color: transparent; }
+    90%  { box-shadow: 0 0 50px 18px rgba(240, 220, 195, 1); border-color: rgb(240, 220, 195); }
+    95%  { box-shadow: 0 0 1px 0px rgba(245,230,210,0.0); border-color: transparent; }
+    100% { box-shadow: 0 0 40px 15px rgb(214, 194, 167); border-color: rgb(214, 194, 167); }
+}
+
+#border.second-39, #border.second-40, #border.second-41 {
+    animation: monster-crash 1s ease-out forwards;
+
+}
+
+
+#border:is(.second-40)::after {
+    content:  "Evelyn: OH!!";
+    color: white;
+    background-color: rgba(0, 0, 0, 0.347);
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: fit-content;
+}
+
+#border:is(.second-43, .second-44, .second-45)::before {
+    content: "(Beau yelling in panic)";
+    color: white;
+    font-style: italic;
+    background-color: rgba(0, 0, 0, 0.347);
+    font-size: .8em;
+    position: absolute;
+    bottom: 7%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: fit-content;
+}
+
+#border:is(.second-46)::before {
+    content: "(Car screeching.)";
+    color: white;
+    font-style: italic;
+    background-color: rgba(0, 0, 0, 0.347);
+    font-size: .8em;
+    position: absolute;
+    bottom: 7%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: fit-content;
+}
+
+ #border:is(.second-45)::after {
+    content:  "Evelyn: OH MY GOD.";
+    color: white;
+    background-color: rgba(0, 0, 0, 0.347);
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: fit-content;
+}
+
+#border:is(.second-48)::after {
+    content:  "Evelyn: It's okay.";
+    color: white;
+    background-color: rgba(0, 0, 0, 0.347);
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: fit-content;
+}
+
+#border:is(.second-49, .second-50)::after {
+    content:  "Evelyn: It's okay, we're okay, we're okay.";
+    color: white;
+    background-color: rgba(0, 0, 0, 0.347);
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: fit-content;
+}
+
+#border:is(.second-47, .second-48, .second-49, .second-50, .second-51)::before {
+    content: "(Muffled yelling from people on the street.)";
+    color: white;
+    font-style: italic;
+    background-color: rgba(0, 0, 0, 0.347);
+    font-size: .8em;
+    position: absolute;
+    bottom: 7%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: fit-content;
+}
+
+
+#border:is(.second-51, .second-52)::after {
+    content:  "Marcus: THAT'S DAD! DAD! DAD! DAD!";
+    color: white;
+    background-color: rgba(0, 0, 0, 0.347);
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: fit-content;
+}
+
+#border:is(.second-53)::after {
+    content:  "Evelyn: WH- WHERE?";
+    color: white;
+    background-color: rgba(0, 0, 0, 0.347);
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: fit-content;
+}
+
+#border:is(.second-54)::after {
+    content:  "Marcus: MOM! MOM!";
+    color: white;
+    background-color: rgba(0, 0, 0, 0.347);
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: fit-content;
+}
+
+#border:is(.second-55)::after {
+    content:  "Evelyn: OH MY GOD!";
+    color: white;
+    background-color: rgba(0, 0, 0, 0.347);
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: fit-content;
+}
